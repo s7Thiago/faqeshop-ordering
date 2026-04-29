@@ -2,6 +2,8 @@ package com.faqe.faqeshop.ordering.domain.entity;
 
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.ERROR_CUSTOMER_ARCHIVED;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_EMAIL_IS_INVALID;
+import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_LOYALTYPOINTS_IS_NEGATIVE;
+import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_LOYALTYPOINTS_IS_NULL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertWith;
@@ -27,10 +29,7 @@ public class CustomerTest {
                                 "1234567890",
                                 "12345678901",
                                 true,
-                                false,
-                                OffsetDateTime.now(),
-                                null,
-                                0);
+                                OffsetDateTime.now());
 
                 System.out.println("ID do cliente: " + customer.id());
                 System.out.println("Novo ID teste: " + IdGenerator.generateTimeBasedUUID());
@@ -48,10 +47,7 @@ public class CustomerTest {
                                                 "1234567890",
                                                 "12345678901",
                                                 true,
-                                                false,
-                                                OffsetDateTime.now(),
-                                                null,
-                                                0))
+                                                OffsetDateTime.now()))
                                 .withMessage(VALIDATION_ERROR_EMAIL_IS_INVALID);
         }
 
@@ -65,10 +61,7 @@ public class CustomerTest {
                                 "1234567890",
                                 "12345678901",
                                 false,
-                                false,
-                                OffsetDateTime.now(),
-                                null,
-                                0);
+                                OffsetDateTime.now());
 
                 assertThatExceptionOfType(IllegalArgumentException.class)
                                 .isThrownBy(() -> {
@@ -87,10 +80,8 @@ public class CustomerTest {
                                 "1234567890",
                                 "12345678901",
                                 false,
-                                false,
-                                OffsetDateTime.now(),
-                                null,
-                                0);
+
+                                OffsetDateTime.now());
 
                 customer.archive();
 
@@ -117,7 +108,7 @@ public class CustomerTest {
                                 true,
                                 OffsetDateTime.now(),
                                 OffsetDateTime.now(),
-                                0);
+                                1);
 
                 assertThatExceptionOfType(CustomerArchivedException.class)
                                 .isThrownBy(customer::archive)
@@ -134,10 +125,9 @@ public class CustomerTest {
                                 "1234567890",
                                 "12345678901",
                                 false,
-                                true,
-                                OffsetDateTime.now(),
-                                OffsetDateTime.now(),
-                                0);
+                                OffsetDateTime.now());
+
+                customer.archive();
 
                 assertThatExceptionOfType(CustomerArchivedException.class)
                                 .isThrownBy(() -> customer.changeName("New Name"))
@@ -162,5 +152,61 @@ public class CustomerTest {
                 assertThatExceptionOfType(CustomerArchivedException.class)
                                 .isThrownBy(() -> customer.addLoyaltyPoints(10))
                                 .withMessage(ERROR_CUSTOMER_ARCHIVED);
+        }
+
+        @Test
+        void given_customer_whenAddNullLoyaltypoints_shouldGenerateException() {
+                Customer customer = new Customer(
+                                IdGenerator.generateTimeBasedUUID(),
+                                "John Doe",
+                                LocalDate.of(1991, 7, 5),
+                                "john.doe@example.com",
+                                "1234567890",
+                                "12345678901",
+                                false,
+                                OffsetDateTime.now());
+
+                assertThatExceptionOfType(NullPointerException.class)
+                                .isThrownBy(() -> customer.addLoyaltyPoints(null))
+                                .withMessage(VALIDATION_ERROR_LOYALTYPOINTS_IS_NULL);
+        }
+
+        @Test
+        void given_customer_whenAddLoyaltypoints_shouldSumPoints() {
+                Customer customer = new Customer(
+                                IdGenerator.generateTimeBasedUUID(),
+                                "John Doe",
+                                LocalDate.of(1991, 7, 5),
+                                "john.doe@example.com",
+                                "1234567890",
+                                "12345678901",
+                                false,
+                                OffsetDateTime.now());
+
+                customer.addLoyaltyPoints(10);
+                customer.addLoyaltyPoints(5);
+
+                assertThat(customer.loyaltyPoints()).isEqualTo(15);
+        }
+
+        @Test
+        void given_customer_whenAddInvalidLoyaltypoints_shouldGenerateException() {
+                Customer customer = new Customer(
+                                IdGenerator.generateTimeBasedUUID(),
+                                "John Doe",
+                                LocalDate.of(1991, 7, 5),
+                                "john.doe@example.com",
+                                "1234567890",
+                                "12345678901",
+                                false,
+                                OffsetDateTime.now());
+
+                assertThatExceptionOfType(IllegalArgumentException.class)
+                                .isThrownBy(() -> customer.addLoyaltyPoints(-5))
+                                .withMessage(VALIDATION_ERROR_LOYALTYPOINTS_IS_NEGATIVE);
+
+                assertThatExceptionOfType(IllegalArgumentException.class)
+                                .isThrownBy(() -> customer.addLoyaltyPoints(0))
+                                .withMessage(VALIDATION_ERROR_LOYALTYPOINTS_IS_NEGATIVE);
         }
 }
