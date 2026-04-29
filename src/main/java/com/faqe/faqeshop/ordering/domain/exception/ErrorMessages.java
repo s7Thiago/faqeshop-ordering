@@ -4,7 +4,11 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_BIRTHDATE_MUST_IN_PAST = "Birth date cannot be in the future.";
 
     public static final String VALIDATION_ERROR_FULLNAME_IS_NULL = "FullName cannot be null.";
+    public static final String VALIDATION_ERROR_FIRSTNAME_IS_NULL = "FirstName cannot be null.";
+    public static final String VALIDATION_ERROR_LASTNAME_IS_NULL = "LastName cannot be null.";
     public static final String VALIDATION_ERROR_FULLNAME_IS_BLANK = "FullName cannot be blank.";
+    public static final String VALIDATION_ERROR_FIRSTNAME_IS_BLANK = "FistName cannot be blank.";
+    public static final String VALIDATION_ERROR_LASTNAME_IS_BLANK = "LastName cannot be blank.";
 
     public static final String VALIDATION_ERROR_EMAIL_IS_INVALID = "Email is invalid.";
     public static final String VALIDATION_ERROR_EMAIL_IS_BLANK = "Email cannot be blank.";
@@ -17,7 +21,7 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_PHONE_IS_NULL_OR_EMPTY = "Phone cannot be null or empty.";
     public static final String VALIDATION_ERROR_PHONE_IS_NULL = "Phone cannot be null.";
 
-    public static final String VALIDATION_ERROR_ID_IS_NULL = "ID cannot be null.";
+    public static final String VALIDATION_ERROR_ID_IS_NULL = "Customer ID cannot be null.";
     
     public static final String VALIDATION_ERROR_DOCUMENT_IS_NULL = "Document cannot be null.";
 
