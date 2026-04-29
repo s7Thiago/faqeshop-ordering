@@ -67,10 +67,16 @@ public class CustomerTest {
                 OffsetDateTime.now(),
                 null,
                 0);
+                
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> {
                     customer.changeEmail("invalid-email");
                 })
                 .withMessage(VALIDATION_ERROR_EMAIL_IS_INVALID);
+    }
+
+    @Test
+    void given_unarchivedCustomer_whenArchive_shouldAnonymize() {
+
     }
 }
