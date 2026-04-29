@@ -23,4 +23,6 @@ public class ErrorMessages {
 
     public static final String VALIDATION_ERROR_LOYALTYPOINTS_IS_NULL = "Loyalty points cannot be null.";
     public static final String VALIDATION_ERROR_LOYALTYPOINTS_IS_NEGATIVE = "Loyalty points cannot be negative.";
+
+    public static final String ERROR_CUSTOMER_ARCHIVED = "Customer is archived it cannot be changed.";
 }

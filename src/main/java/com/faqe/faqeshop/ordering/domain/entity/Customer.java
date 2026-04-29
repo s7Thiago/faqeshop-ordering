@@ -20,6 +20,7 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.faqe.faqeshop.ordering.domain.exception.CustomerArchivedException;
 import com.faqe.faqeshop.ordering.domain.validator.FieldValidations;
 
 public class Customer {
@@ -66,25 +67,30 @@ public class Customer {
     }
 
     public void addLoyaltyPoints(Integer points) {
+        verifyIfChangeable();
         if (points != null && points > 0) {
             if (loyaltyPoints == null) {
                 loyaltyPoints = 0;
             }
-            setLoyaltyPoints(this.loyaltyPoints + points);
+            setLoyaltyPoints(this.loyaltyPoints() + points);
         }
     }
 
     public void archive() {
+        verifyIfChangeable();
+
         this.setArchived(true);
         this.setArchivedAt(OffsetDateTime.now());
         this.setFullName("Anonymous");
         this.setPhone("000-000-0000");
         this.setDocument("000-00-000");
-        this.setEmail(UUID.randomUUID() +"@anonymous.com");
+        this.setEmail(UUID.randomUUID() + "@anonymous.com");
         this.setBirthDate(null);
+        this.setPromotionalNotificationsAllowed(false);
     }
 
     public void enablePromotionalNotifications() {
+        verifyIfChangeable();
         if (this.isArchived().equals(Boolean.FALSE)) {
             this.setPromotionalNotificationsAllowed(true);
         } else {
@@ -93,11 +99,12 @@ public class Customer {
     }
 
     public void disablePromotionalNotifications() {
+        verifyIfChangeable();
         this.setPromotionalNotificationsAllowed(false);
     }
 
     public Boolean changeName(String fullName) {
-
+        verifyIfChangeable();
         Objects.requireNonNull(fullName, VALIDATION_ERROR_FULLNAME_IS_NULL);
 
         if (this.isArchived().equals(Boolean.TRUE)) {
@@ -113,6 +120,7 @@ public class Customer {
     }
 
     public void changeEmail(String email) {
+        verifyIfChangeable();
         if (this.isArchived().equals(Boolean.TRUE)) {
             throw new IllegalStateException(VALIDATION_ERROR_EMAIL_CANNOT_BE_CHANGED);
         }
@@ -125,6 +133,7 @@ public class Customer {
     }
 
     public void changePhone(String phone) {
+        verifyIfChangeable();
         if (this.isArchived().equals(Boolean.TRUE)) {
             throw new IllegalStateException(VALIDATION_ERROR_PHONE_CANNOT_BE_CHANGED);
         }
@@ -133,6 +142,12 @@ public class Customer {
             this.setPhone(phone);
         } else {
             throw new IllegalArgumentException(VALIDATION_ERROR_PHONE_IS_NULL_OR_EMPTY);
+        }
+    }
+
+    private void verifyIfChangeable() {
+        if (this.isArchived()) {
+            throw new CustomerArchivedException();
         }
     }
 
