@@ -8,25 +8,36 @@ import org.junit.jupiter.api.Test;
 public class LoyaltyPointsTest {
 
     @Test
-     void shouldGenerateWithValue() {
+    void shouldGenerateWithValue() {
         LoyaltyPoints loyaltyPoints = new LoyaltyPoints(10);
         Assertions.assertThat(loyaltyPoints.value()).isEqualTo(10);
     }
 
     @Test
-     void shouldAddWithValue() {
+    void shouldAddWithValue() {
         LoyaltyPoints loyaltyPoints = new LoyaltyPoints(10);
         var addedLoyaltyPoint = loyaltyPoints.add(5);
         Assertions.assertThat(addedLoyaltyPoint.value()).isEqualTo(15);
     }
 
     @Test
-     void shouldNotAddWithValue() {
+    void shouldNotAddWithValue() {
         LoyaltyPoints loyaltyPoints = new LoyaltyPoints(10);
-        
+
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> loyaltyPoints.add(-5))
-            .withMessage(VALIDATION_ERROR_LOYALTYPOINTS_IS_NEGATIVE);
+                .isThrownBy(() -> loyaltyPoints.add(-5))
+                .withMessage(VALIDATION_ERROR_LOYALTYPOINTS_IS_NEGATIVE);
+
+        Assertions.assertThat(loyaltyPoints.value()).isEqualTo(10);
+    }
+
+    @Test
+    void shouldNotAddZeroValue() {
+        LoyaltyPoints loyaltyPoints = new LoyaltyPoints(10);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> loyaltyPoints.add(0))
+                .withMessage(VALIDATION_ERROR_LOYALTYPOINTS_IS_NEGATIVE);
 
         Assertions.assertThat(loyaltyPoints.value()).isEqualTo(10);
     }
