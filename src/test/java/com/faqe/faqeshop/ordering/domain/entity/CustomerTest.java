@@ -30,15 +30,14 @@ public class CustomerTest {
         @Test
         public void testingCustomer() {
 
-                Customer customer = new Customer(
-                                new CustomerId(),
+                Customer customer = Customer.brandNew(
                                 new FullName("John", "Doe"),
                                 new BirthDate(LocalDate.of(1991, 1, 1)),
                                 new Email("john.doe@example.com"),
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 true,
-                                OffsetDateTime.now(),
+                                false,
                                 Address.builder()
                                                 .street("123 Main St")
                                                 .complement("Apt 4B")
@@ -56,15 +55,15 @@ public class CustomerTest {
         @Test
         public void given_invalidEmail_whenTryCreateCustomer_ShouldGenerateException() {
                 assertThatExceptionOfType(IllegalArgumentException.class)
-                                .isThrownBy(() -> new Customer(
-                                                new CustomerId(),
+                                .isThrownBy(() -> Customer.brandNew(
                                                 new FullName("John", "Doe"),
                                                 new BirthDate(LocalDate.of(1991, 7, 5)),
                                                 new Email("invalid-email"),
                                                 new Phone("1234567890"),
                                                 new Document("12345678901"),
                                                 true,
-                                                OffsetDateTime.now(), Address.builder()
+                                                false,
+                                                Address.builder()
                                                                 .street("123 Main St")
                                                                 .number("123")
                                                                 .complement("Apt 4B")
@@ -78,15 +77,15 @@ public class CustomerTest {
 
         @Test
         public void given_invalidEmail_whenTryUpdateCustomerEmail_ShouldGenerateException() {
-                Customer customer = new Customer(
-                                new CustomerId(),
+                Customer customer = Customer.brandNew(
                                 new FullName("John", "Doe"),
                                 new BirthDate(LocalDate.of(1991, 7, 5)),
                                 new Email("john.doe@example.com"),
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now(), Address.builder()
+                                false,
+                                Address.builder()
                                                 .street("123 Main St")
                                                 .number("123")
                                                 .complement("Apt 4B")
@@ -105,7 +104,7 @@ public class CustomerTest {
 
         @Test
         void given_unarchivedCustomer_whenArchive_shouldAnonymize() {
-                Customer customer = new Customer(
+                Customer customer = Customer.existing(
                                 new CustomerId(),
                                 new FullName("John", "Doe"),
                                 new BirthDate(LocalDate.of(1991, 7, 5)),
@@ -113,7 +112,11 @@ public class CustomerTest {
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now(), Address.builder()
+                                false,
+                                OffsetDateTime.now(),
+                                OffsetDateTime.now(),
+                                new LoyaltyPoints(10),
+                                Address.builder()
                                                 .street("123 Main St")
                                                 .number("123")
                                                 .complement("Apt 4B")
@@ -133,14 +136,13 @@ public class CustomerTest {
                                 c -> assertThat(c.isPromotionalNotificationsAllowed()).isFalse(),
                                 c -> assertThat(c.birthDate()).isNull(),
                                 c -> assertThat(c.address().number()).isEqualTo("Unknown"),
-                                c -> assertThat(c.address().complement()).isNull()
-                        );
+                                c -> assertThat(c.address().complement()).isNull());
 
         }
 
         @Test
         void given_archivedCustomer_whenTryToArchive_shouldGenerateException() {
-                Customer customer = new Customer(
+                Customer customer = Customer.existing(
                                 new CustomerId(),
                                 new FullName("John", "Doe"),
                                 new BirthDate(LocalDate.of(1991, 7, 5)),
@@ -151,7 +153,8 @@ public class CustomerTest {
                                 true,
                                 OffsetDateTime.now(),
                                 OffsetDateTime.now(),
-                                new LoyaltyPoints(1), Address.builder()
+                                new LoyaltyPoints(10),
+                                Address.builder()
                                                 .street("123 Main St")
                                                 .number("123")
                                                 .complement("Apt 4B")
@@ -168,7 +171,7 @@ public class CustomerTest {
 
         @Test
         void given_archivedCustomer_whenTryToUpdate_shouldGenerateException() {
-                Customer customer = new Customer(
+                Customer customer = Customer.existing(
                                 new CustomerId(),
                                 new FullName("John", "Doe"),
                                 new BirthDate(LocalDate.of(1991, 7, 5)),
@@ -176,7 +179,11 @@ public class CustomerTest {
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now(), Address.builder()
+                                false,
+                                OffsetDateTime.now(),
+                                OffsetDateTime.now(),
+                                new LoyaltyPoints(10),
+                                Address.builder()
                                                 .street("123 Main St")
                                                 .number("123")
                                                 .complement("Apt 4B")
@@ -215,15 +222,15 @@ public class CustomerTest {
 
         @Test
         void given_customer_whenAddNullLoyaltypoints_shouldGenerateException() {
-                Customer customer = new Customer(
-                                new CustomerId(),
+                Customer customer = Customer.brandNew(
                                 new FullName("John", "Doe"),
                                 new BirthDate(LocalDate.of(1991, 7, 5)),
                                 new Email("john.doe@example.com"),
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now(), Address.builder()
+                                false,
+                                Address.builder()
                                                 .street("123 Main St")
                                                 .number("123")
                                                 .complement("Apt 4B")
@@ -240,15 +247,15 @@ public class CustomerTest {
 
         @Test
         void given_customer_whenAddLoyaltypoints_shouldSumPoints() {
-                Customer customer = new Customer(
-                                new CustomerId(),
+                Customer customer = Customer.brandNew(
                                 new FullName("John", "Doe"),
                                 new BirthDate(LocalDate.of(1991, 7, 5)),
                                 new Email("john.doe@example.com"),
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now(), Address.builder()
+                                false,
+                                Address.builder()
                                                 .street("123 Main St")
                                                 .number("123")
                                                 .complement("Apt 4B")
@@ -266,15 +273,15 @@ public class CustomerTest {
 
         @Test
         void given_customer_whenAddInvalidLoyaltypoints_shouldGenerateException() {
-                Customer customer = new Customer(
-                                new CustomerId(),
+                Customer customer = Customer.brandNew(
                                 new FullName("John", "Doe"),
                                 new BirthDate(LocalDate.of(1991, 7, 5)),
                                 new Email("john.doe@example.com"),
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now(), Address.builder()
+                                false,
+                                Address.builder()
                                                 .street("123 Main St")
                                                 .number("123")
                                                 .complement("Apt 4B")

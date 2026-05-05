@@ -24,7 +24,6 @@ import com.faqe.faqeshop.ordering.domain.valueObject.Email;
 import com.faqe.faqeshop.ordering.domain.valueObject.FullName;
 import com.faqe.faqeshop.ordering.domain.valueObject.LoyaltyPoints;
 import com.faqe.faqeshop.ordering.domain.valueObject.Phone;
-import com.faqe.faqeshop.ordering.domain.valueObject.ZipCode;
 
 public class Customer {
     private CustomerId id;
@@ -40,7 +39,31 @@ public class Customer {
     private LoyaltyPoints loyaltyPoints; // just can be added
     private Address address;
 
-    public Customer(
+    public static Customer brandNew(
+            FullName fullName,
+            BirthDate birthDate,
+            Email email,
+            Phone phone,
+            Document document,
+            Boolean promotionalNotificationsAllowed,
+            Boolean archived,
+            Address address) {
+        return new Customer(
+                new CustomerId(),
+                fullName,
+                birthDate,
+                email,
+                phone,
+                document,
+                promotionalNotificationsAllowed,
+                archived, // archived
+                OffsetDateTime.now(), // registeredAt
+                archived ? OffsetDateTime.now() : null, // archivedAt
+                LoyaltyPoints.ZERO, // loyaltyPoints
+                address);
+    }
+
+    public static Customer existing(
             CustomerId id,
             FullName fullName,
             BirthDate birthDate,
@@ -48,22 +71,27 @@ public class Customer {
             Phone phone,
             Document document,
             Boolean promotionalNotificationsAllowed,
+            Boolean archived,
             OffsetDateTime registeredAt,
+            OffsetDateTime archivedAt,
+            LoyaltyPoints loyaltyPoints,
             Address address) {
-        this.setId(id);
-        this.setFullName(fullName);
-        this.setBirthDate(birthDate);
-        this.setEmail(email);
-        this.setPhone(phone);
-        this.setDocument(document);
-        this.setPromotionalNotificationsAllowed(promotionalNotificationsAllowed);
-        this.setRegisteredAt(registeredAt);
-        this.setArchived(false);
-        this.setLoyaltyPoints(LoyaltyPoints.ZERO);
-        this.setAddress(address);
+        return new Customer(
+                id,
+                fullName,
+                birthDate,
+                email,
+                phone,
+                document,
+                promotionalNotificationsAllowed,
+                archived, // archived
+                registeredAt, // registeredAt
+                archivedAt, // archivedAt
+                loyaltyPoints, // loyaltyPoints
+                address);
     }
 
-    public Customer(
+    private Customer(
             CustomerId id,
             FullName fullName,
             BirthDate birthDate,
