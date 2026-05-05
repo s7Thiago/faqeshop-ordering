@@ -1,36 +1,34 @@
 package com.faqe.faqeshop.ordering.domain.entity;
 
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_ARCHIVED_CUSTOMER_CANNOT_ENABLE_PROMOTIONAL_NOTIFICATIONS;
-import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_BIRTHDATE_MUST_IN_PAST;
-import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_DOCUMENT_IS_NULL;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_EMAIL_CANNOT_BE_CHANGED;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_EMAIL_IS_INVALID;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_FULLNAME_IS_NULL;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_ID_IS_NULL;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_LOYALTYPOINTS_IS_NULL;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_PHONE_CANNOT_BE_CHANGED;
-import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_PHONE_IS_NULL;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_PHONE_IS_NULL_OR_EMPTY;
-import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import com.faqe.faqeshop.ordering.domain.exception.CustomerArchivedException;
-import com.faqe.faqeshop.ordering.domain.validator.FieldValidations;
+import com.faqe.faqeshop.ordering.domain.valueObject.BirthDate;
 import com.faqe.faqeshop.ordering.domain.valueObject.CustomerId;
+import com.faqe.faqeshop.ordering.domain.valueObject.Document;
+import com.faqe.faqeshop.ordering.domain.valueObject.Email;
 import com.faqe.faqeshop.ordering.domain.valueObject.FullName;
 import com.faqe.faqeshop.ordering.domain.valueObject.LoyaltyPoints;
+import com.faqe.faqeshop.ordering.domain.valueObject.Phone;
 
 public class Customer {
     private CustomerId id;
     private FullName fullName;
-    private LocalDate birthDate;
-    private String email;
-    private String phone;
-    private String document;
+    private BirthDate birthDate;
+    private Email email;
+    private Phone phone;
+    private Document document;
     private Boolean promotionalNotificationsAllowed;
     private Boolean archived;
     private OffsetDateTime registeredAt;
@@ -40,10 +38,10 @@ public class Customer {
     public Customer(
             CustomerId id,
             FullName fullName,
-            LocalDate birthDate,
-            String email,
-            String phone,
-            String document,
+            BirthDate birthDate,
+            Email email,
+            Phone phone,
+            Document document,
             Boolean promotionalNotificationsAllowed,
             OffsetDateTime registeredAt) {
         this.setId(id);
@@ -61,10 +59,10 @@ public class Customer {
     public Customer(
             CustomerId id,
             FullName fullName,
-            LocalDate birthDate,
-            String email,
-            String phone,
-            String document,
+            BirthDate birthDate,
+            Email email,
+            Phone phone,
+            Document document,
             Boolean promotionalNotificationsAllowed,
             Boolean archived,
             OffsetDateTime registeredAt,
@@ -94,9 +92,9 @@ public class Customer {
         this.setArchived(true);
         this.setArchivedAt(OffsetDateTime.now());
         this.setFullName(new FullName("Anonymous", "Customer"));
-        this.setPhone("000-000-0000");
-        this.setDocument("000-00-000");
-        this.setEmail(UUID.randomUUID() + "@anonymous.com");
+        this.setPhone(new Phone("000-000-0000"));
+        this.setDocument(new Document("000-00-000"));
+        this.setEmail(new Email(UUID.randomUUID() + "@anonymous.com"));
         this.setBirthDate(null);
         this.setPromotionalNotificationsAllowed(false);
     }
@@ -127,7 +125,7 @@ public class Customer {
         }
 
         if (email != null && !email.trim().isEmpty()) {
-            this.setEmail(email);
+            this.setEmail(new Email(email));
         } else {
             throw new IllegalArgumentException(VALIDATION_ERROR_EMAIL_IS_INVALID);
         }
@@ -140,7 +138,7 @@ public class Customer {
         }
 
         if (phone != null && !phone.trim().isEmpty()) {
-            this.setPhone(phone);
+            this.setPhone(new Phone(phone));
         } else {
             throw new IllegalArgumentException(VALIDATION_ERROR_PHONE_IS_NULL_OR_EMPTY);
         }
@@ -185,19 +183,19 @@ public class Customer {
         return fullName;
     }
 
-    public LocalDate birthDate() {
+    public BirthDate birthDate() {
         return birthDate;
     }
 
-    public String email() {
+    public Email email() {
         return email;
     }
 
-    public String phone() {
+    public Phone phone() {
         return phone;
     }
 
-    public String document() {
+    public Document document() {
         return document;
     }
 
@@ -231,32 +229,19 @@ public class Customer {
         this.fullName = fullName;
     }
 
-    private void setBirthDate(LocalDate birthDate) {
-
-        if (birthDate == null) {
-            this.birthDate = null;
-            return;
-        }
-
-        if (birthDate.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException(VALIDATION_ERROR_BIRTHDATE_MUST_IN_PAST);
-        }
-
+    private void setBirthDate(BirthDate birthDate) {
         this.birthDate = birthDate;
     }
 
-    private void setEmail(String email) {
-        FieldValidations.requiresValidEmail(email, VALIDATION_ERROR_EMAIL_IS_INVALID);
+    private void setEmail(Email email) {
         this.email = email;
     }
-
-    private void setPhone(String phone) {
-        requireNonNull(phone, VALIDATION_ERROR_PHONE_IS_NULL);
+    
+    private void setPhone(Phone phone) {
         this.phone = phone;
     }
 
-    private void setDocument(String document) {
-        requireNonNull(document, VALIDATION_ERROR_DOCUMENT_IS_NULL);
+    private void setDocument(Document document) {
         this.document = document;
     }
 

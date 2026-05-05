@@ -1,6 +1,7 @@
 package com.faqe.faqeshop.ordering.domain.exception;
 
 public class ErrorMessages {
+    public static final String VALIDATION_ERROR_BIRTHDATE_IS_NULL = "Birth date cannot be null.";
     public static final String VALIDATION_ERROR_BIRTHDATE_MUST_IN_PAST = "Birth date cannot be in the future.";
 
     public static final String VALIDATION_ERROR_FULLNAME_IS_NULL = "FullName cannot be null.";
@@ -24,6 +25,7 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_ID_IS_NULL = "Customer ID cannot be null.";
     
     public static final String VALIDATION_ERROR_DOCUMENT_IS_NULL = "Document cannot be null.";
+    public static final String VALIDATION_ERROR_DOCUMENT_IS_BLANK = "Document cannot be blank.";
 
     public static final String VALIDATION_ERROR_LOYALTYPOINTS_IS_NULL = "Loyalty points cannot be null.";
     public static final String VALIDATION_ERROR_LOYALTYPOINTS_IS_NEGATIVE = "Loyalty points must be a greather than zero";
