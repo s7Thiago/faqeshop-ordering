@@ -31,4 +31,10 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_LOYALTYPOINTS_IS_NEGATIVE = "Loyalty points must be a greather than zero";
 
     public static final String ERROR_CUSTOMER_ARCHIVED = "Customer is archived it cannot be changed.";
+
+    public static final String VALIDATION_ERROR_ADDRESS_IS_NULL = "Address cannot be null.";
+
+    public static final String VALIDATION_ERROR_ZIPCODE_IS_NULL = "Zip code cannot be null.";
+    public static final String VALIDATION_ERROR_ZIPCODE_IS_BLANK = "Zip code cannot be blank.";
+    public static final String VALIDATION_ERROR_ZIPCODE_SHORT = "Zip code must be at least 5 characters long.";
 }

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import com.faqe.faqeshop.ordering.domain.exception.CustomerArchivedException;
 import com.faqe.faqeshop.ordering.domain.utility.IdGenerator;
+import com.faqe.faqeshop.ordering.domain.valueObject.Address;
 import com.faqe.faqeshop.ordering.domain.valueObject.BirthDate;
 import com.faqe.faqeshop.ordering.domain.valueObject.CustomerId;
 import com.faqe.faqeshop.ordering.domain.valueObject.Document;
@@ -22,6 +23,7 @@ import com.faqe.faqeshop.ordering.domain.valueObject.Email;
 import com.faqe.faqeshop.ordering.domain.valueObject.FullName;
 import com.faqe.faqeshop.ordering.domain.valueObject.LoyaltyPoints;
 import com.faqe.faqeshop.ordering.domain.valueObject.Phone;
+import com.faqe.faqeshop.ordering.domain.valueObject.ZipCode;
 
 public class CustomerTest {
 
@@ -36,7 +38,15 @@ public class CustomerTest {
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 true,
-                                OffsetDateTime.now());
+                                OffsetDateTime.now(),
+                                Address.builder()
+                                                .street("123 Main St")
+                                                .complement("Apt 4B")
+                                                .neighborhood("Downtown")
+                                                .city("Anytown")
+                                                .state("CA")
+                                                .zipCode(new ZipCode("12345"))
+                                                .build());
 
                 System.out.println("ID do cliente: " + customer.id());
                 System.out.println("Novo ID teste: " + IdGenerator.generateTimeBasedUUID());
@@ -54,7 +64,15 @@ public class CustomerTest {
                                                 new Phone("1234567890"),
                                                 new Document("12345678901"),
                                                 true,
-                                                OffsetDateTime.now()))
+                                                OffsetDateTime.now(), Address.builder()
+                                                                .street("123 Main St")
+                                                                .number("123")
+                                                                .complement("Apt 4B")
+                                                                .neighborhood("Downtown")
+                                                                .city("Anytown")
+                                                                .state("CA")
+                                                                .zipCode(new ZipCode("12345"))
+                                                                .build()))
                                 .withMessage(VALIDATION_ERROR_EMAIL_IS_INVALID);
         }
 
@@ -68,7 +86,15 @@ public class CustomerTest {
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now());
+                                OffsetDateTime.now(), Address.builder()
+                                                .street("123 Main St")
+                                                .number("123")
+                                                .complement("Apt 4B")
+                                                .neighborhood("Downtown")
+                                                .city("Anytown")
+                                                .state("CA")
+                                                .zipCode(new ZipCode("12345"))
+                                                .build());
 
                 assertThatExceptionOfType(IllegalArgumentException.class)
                                 .isThrownBy(() -> {
@@ -87,8 +113,15 @@ public class CustomerTest {
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-
-                                OffsetDateTime.now());
+                                OffsetDateTime.now(), Address.builder()
+                                                .street("123 Main St")
+                                                .number("123")
+                                                .complement("Apt 4B")
+                                                .neighborhood("Downtown")
+                                                .city("Anytown")
+                                                .state("CA")
+                                                .zipCode(new ZipCode("12345"))
+                                                .build());
 
                 customer.archive();
 
@@ -98,7 +131,10 @@ public class CustomerTest {
                                 c -> assertThat(c.phone().value()).isEqualTo("000-000-0000"),
                                 c -> assertThat(c.document().value()).isEqualTo("000-00-000"),
                                 c -> assertThat(c.isPromotionalNotificationsAllowed()).isFalse(),
-                                c -> assertThat(c.birthDate()).isNull());
+                                c -> assertThat(c.birthDate()).isNull(),
+                                c -> assertThat(c.address().number()).isEqualTo("Unknown"),
+                                c -> assertThat(c.address().complement()).isNull()
+                        );
 
         }
 
@@ -115,7 +151,15 @@ public class CustomerTest {
                                 true,
                                 OffsetDateTime.now(),
                                 OffsetDateTime.now(),
-                                new LoyaltyPoints(1));
+                                new LoyaltyPoints(1), Address.builder()
+                                                .street("123 Main St")
+                                                .number("123")
+                                                .complement("Apt 4B")
+                                                .neighborhood("Downtown")
+                                                .city("Anytown")
+                                                .state("CA")
+                                                .zipCode(new ZipCode("12345"))
+                                                .build());
 
                 assertThatExceptionOfType(CustomerArchivedException.class)
                                 .isThrownBy(customer::archive)
@@ -132,7 +176,15 @@ public class CustomerTest {
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now());
+                                OffsetDateTime.now(), Address.builder()
+                                                .street("123 Main St")
+                                                .number("123")
+                                                .complement("Apt 4B")
+                                                .neighborhood("Downtown")
+                                                .city("Anytown")
+                                                .state("CA")
+                                                .zipCode(new ZipCode("12345"))
+                                                .build());
 
                 customer.archive();
 
@@ -171,7 +223,15 @@ public class CustomerTest {
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now());
+                                OffsetDateTime.now(), Address.builder()
+                                                .street("123 Main St")
+                                                .number("123")
+                                                .complement("Apt 4B")
+                                                .neighborhood("Downtown")
+                                                .city("Anytown")
+                                                .state("CA")
+                                                .zipCode(new ZipCode("12345"))
+                                                .build());
 
                 assertThatExceptionOfType(NullPointerException.class)
                                 .isThrownBy(() -> customer.addLoyaltyPoints(null))
@@ -188,7 +248,15 @@ public class CustomerTest {
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now());
+                                OffsetDateTime.now(), Address.builder()
+                                                .street("123 Main St")
+                                                .number("123")
+                                                .complement("Apt 4B")
+                                                .neighborhood("Downtown")
+                                                .city("Anytown")
+                                                .state("CA")
+                                                .zipCode(new ZipCode("12345"))
+                                                .build());
 
                 customer.addLoyaltyPoints(new LoyaltyPoints(10));
                 customer.addLoyaltyPoints(new LoyaltyPoints(5));
@@ -206,7 +274,15 @@ public class CustomerTest {
                                 new Phone("1234567890"),
                                 new Document("12345678901"),
                                 false,
-                                OffsetDateTime.now());
+                                OffsetDateTime.now(), Address.builder()
+                                                .street("123 Main St")
+                                                .number("123")
+                                                .complement("Apt 4B")
+                                                .neighborhood("Downtown")
+                                                .city("Anytown")
+                                                .state("CA")
+                                                .zipCode(new ZipCode("12345"))
+                                                .build());
 
                 assertThatExceptionOfType(IllegalArgumentException.class)
                                 .isThrownBy(() -> customer.addLoyaltyPoints(new LoyaltyPoints(-5)))

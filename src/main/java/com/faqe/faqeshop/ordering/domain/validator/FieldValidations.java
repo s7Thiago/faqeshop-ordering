@@ -12,6 +12,17 @@ public class FieldValidations {
         // Construtor privado para evitar instância
     }
 
+    public static void requiresNonBlank(String obj) {
+        requiresNonBlank(obj, "");
+    }
+
+    public static void requiresNonBlank(String obj, String errorMessage) {
+        Objects.requireNonNull(obj);
+        if (obj.isBlank()) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+    }
+
     public static void requiresValidEmail(String email) {
         requiresValidEmail(email, null);
     }

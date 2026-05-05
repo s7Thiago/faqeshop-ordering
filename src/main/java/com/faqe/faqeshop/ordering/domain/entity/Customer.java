@@ -1,5 +1,6 @@
 package com.faqe.faqeshop.ordering.domain.entity;
 
+import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_ADDRESS_IS_NULL;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_ARCHIVED_CUSTOMER_CANNOT_ENABLE_PROMOTIONAL_NOTIFICATIONS;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_EMAIL_CANNOT_BE_CHANGED;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_EMAIL_IS_INVALID;
@@ -11,9 +12,11 @@ import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATI
 import static java.util.Objects.requireNonNull;
 
 import java.time.OffsetDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.faqe.faqeshop.ordering.domain.exception.CustomerArchivedException;
+import com.faqe.faqeshop.ordering.domain.valueObject.Address;
 import com.faqe.faqeshop.ordering.domain.valueObject.BirthDate;
 import com.faqe.faqeshop.ordering.domain.valueObject.CustomerId;
 import com.faqe.faqeshop.ordering.domain.valueObject.Document;
@@ -21,6 +24,7 @@ import com.faqe.faqeshop.ordering.domain.valueObject.Email;
 import com.faqe.faqeshop.ordering.domain.valueObject.FullName;
 import com.faqe.faqeshop.ordering.domain.valueObject.LoyaltyPoints;
 import com.faqe.faqeshop.ordering.domain.valueObject.Phone;
+import com.faqe.faqeshop.ordering.domain.valueObject.ZipCode;
 
 public class Customer {
     private CustomerId id;
@@ -34,6 +38,7 @@ public class Customer {
     private OffsetDateTime registeredAt;
     private OffsetDateTime archivedAt;
     private LoyaltyPoints loyaltyPoints; // just can be added
+    private Address address;
 
     public Customer(
             CustomerId id,
@@ -43,7 +48,8 @@ public class Customer {
             Phone phone,
             Document document,
             Boolean promotionalNotificationsAllowed,
-            OffsetDateTime registeredAt) {
+            OffsetDateTime registeredAt,
+            Address address) {
         this.setId(id);
         this.setFullName(fullName);
         this.setBirthDate(birthDate);
@@ -54,6 +60,7 @@ public class Customer {
         this.setRegisteredAt(registeredAt);
         this.setArchived(false);
         this.setLoyaltyPoints(LoyaltyPoints.ZERO);
+        this.setAddress(address);
     }
 
     public Customer(
@@ -67,7 +74,8 @@ public class Customer {
             Boolean archived,
             OffsetDateTime registeredAt,
             OffsetDateTime archivedAt,
-            LoyaltyPoints loyaltyPoints) {
+            LoyaltyPoints loyaltyPoints,
+            Address address) {
         setId(id);
         setFullName(fullName);
         setBirthDate(birthDate);
@@ -79,6 +87,7 @@ public class Customer {
         setRegisteredAt(registeredAt);
         setArchivedAt(archivedAt);
         setLoyaltyPoints(loyaltyPoints);
+        setAddress(address);
     }
 
     public void addLoyaltyPoints(LoyaltyPoints points) {
@@ -97,6 +106,12 @@ public class Customer {
         this.setEmail(new Email(UUID.randomUUID() + "@anonymous.com"));
         this.setBirthDate(null);
         this.setPromotionalNotificationsAllowed(false);
+
+        Address.AddressBuilder addressBuilder = this.address().toBuilder();
+        this.setAddress(addressBuilder
+                .number("Unknown")
+                .complement(null)
+                .build());
     }
 
     public void enablePromotionalNotifications() {
@@ -142,6 +157,11 @@ public class Customer {
         } else {
             throw new IllegalArgumentException(VALIDATION_ERROR_PHONE_IS_NULL_OR_EMPTY);
         }
+    }
+
+    public void changeAddress(Address address) {
+        verifyIfChangeable();
+        this.setAddress(address);
     }
 
     private void verifyIfChangeable() {
@@ -219,6 +239,10 @@ public class Customer {
         return loyaltyPoints;
     }
 
+    public Address address() {
+        return address;
+    }
+
     private void setId(CustomerId id) {
         requireNonNull(id, VALIDATION_ERROR_ID_IS_NULL);
         this.id = id;
@@ -236,7 +260,7 @@ public class Customer {
     private void setEmail(Email email) {
         this.email = email;
     }
-    
+
     private void setPhone(Phone phone) {
         this.phone = phone;
     }
@@ -264,6 +288,11 @@ public class Customer {
     private void setLoyaltyPoints(LoyaltyPoints addedPoints) {
         requireNonNull(addedPoints, VALIDATION_ERROR_LOYALTYPOINTS_IS_NULL);
         this.loyaltyPoints = addedPoints;
+    }
+
+    private void setAddress(Address address) {
+        Objects.requireNonNull(address, VALIDATION_ERROR_ADDRESS_IS_NULL);
+        this.address = address;
     }
 
 }
