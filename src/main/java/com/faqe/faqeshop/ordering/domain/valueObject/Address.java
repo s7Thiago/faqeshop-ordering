@@ -23,5 +23,4 @@ public record Address(
         FieldValidations.requiresNonBlank(state);
         Objects.requireNonNull(zipCode);
     }
-
 }

@@ -25,6 +25,8 @@ import com.faqe.faqeshop.ordering.domain.valueObject.FullName;
 import com.faqe.faqeshop.ordering.domain.valueObject.LoyaltyPoints;
 import com.faqe.faqeshop.ordering.domain.valueObject.Phone;
 
+import lombok.Builder;
+
 public class Customer {
     private CustomerId id;
     private FullName fullName;
@@ -39,7 +41,8 @@ public class Customer {
     private LoyaltyPoints loyaltyPoints; // just can be added
     private Address address;
 
-    public static Customer brandNew(
+    @Builder(builderClassName = "BrandNewCustomerBuilder", builderMethodName = "brandNew")
+    private static Customer createBrandNew(
             FullName fullName,
             BirthDate birthDate,
             Email email,
@@ -63,34 +66,7 @@ public class Customer {
                 address);
     }
 
-    public static Customer existing(
-            CustomerId id,
-            FullName fullName,
-            BirthDate birthDate,
-            Email email,
-            Phone phone,
-            Document document,
-            Boolean promotionalNotificationsAllowed,
-            Boolean archived,
-            OffsetDateTime registeredAt,
-            OffsetDateTime archivedAt,
-            LoyaltyPoints loyaltyPoints,
-            Address address) {
-        return new Customer(
-                id,
-                fullName,
-                birthDate,
-                email,
-                phone,
-                document,
-                promotionalNotificationsAllowed,
-                archived, // archived
-                registeredAt, // registeredAt
-                archivedAt, // archivedAt
-                loyaltyPoints, // loyaltyPoints
-                address);
-    }
-
+    @Builder(builderClassName = "ExistingCustomerBuilder", builderMethodName = "existing")
     private Customer(
             CustomerId id,
             FullName fullName,
@@ -311,6 +287,7 @@ public class Customer {
 
     private void setArchivedAt(OffsetDateTime archivedAt) {
         this.archivedAt = archivedAt;
+        this.archived = archivedAt != null;
     }
 
     private void setLoyaltyPoints(LoyaltyPoints addedPoints) {
