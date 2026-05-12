@@ -106,16 +106,16 @@ public class Customer {
         this.setArchivedAt(OffsetDateTime.now());
         this.setFullName(new FullName("Anonymous", "Customer"));
         this.setPhone(new Phone("000-000-0000"));
+
+        Address.AddressBuilder addressBuilder = this.address().toBuilder();
+        this.setAddress(addressBuilder.number("Unknown")
+                .complement(null)
+                .number("Unknown")
+                .build());
         this.setDocument(new Document("000-00-000"));
         this.setEmail(new Email(UUID.randomUUID() + "@anonymous.com"));
         this.setBirthDate(null);
         this.setPromotionalNotificationsAllowed(false);
-
-        Address.AddressBuilder addressBuilder = this.address().toBuilder();
-        this.setAddress(addressBuilder
-                .number("Unknown")
-                .complement(null)
-                .build());
     }
 
     public void enablePromotionalNotifications() {
