@@ -34,7 +34,29 @@ public class ErrorMessages {
 
     public static final String VALIDATION_ERROR_ADDRESS_IS_NULL = "Address cannot be null.";
 
+    public static final String VALIDATION_ERROR_MONEY_IS_NULL = "O valor não pode ser nulo";
+    public static final String VALIDATION_ERROR_MONEY_IS_NEGATIVE = "O valor não pode ser negativo";
+    public static final String VALIDATION_ERROR_MONEY_QUANTITY_IS_NULL = "Quantidade não pode ser nula";
+    public static final String VALIDATION_ERROR_MONEY_QUANTITY_MUST_BE_POSITIVE = "Quantidade deve ser maior que 0";
+    public static final String VALIDATION_ERROR_MONEY_DIVISOR_IS_NULL = "Divisor não pode ser nulo";
+    public static final String VALIDATION_ERROR_MONEY_DIVISION_BY_ZERO = "Divisão por zero não é permitida";
+    public static final String VALIDATION_ERROR_MONEY_COMPARISON_WITH_NULL = "Comparação com nulo não é permitida";
+    public static final String VALIDATION_ERROR_MONEY_QUANTITY_CANNOT_BE_NEGATIVE = "Quantidade não pode ser negativa";
+
     public static final String VALIDATION_ERROR_ZIPCODE_IS_NULL = "Zip code cannot be null.";
     public static final String VALIDATION_ERROR_ZIPCODE_IS_BLANK = "Zip code cannot be blank.";
     public static final String VALIDATION_ERROR_ZIPCODE_SHORT = "Zip code must be at least 5 characters long.";
+
+    public static final String VALIDATION_ERROR_PRODUCTNAME_IS_NULL = "Product name cannot be null.";
+    public static final String VALIDATION_ERROR_PRODUCTNAME_IS_BLANK = "Product name cannot be blank.";
+
+    public static final String VALIDATION_ERROR_BILLINGINFO_FULLNAME_IS_NULL = "Billing info - Full name cannot be null.";
+    public static final String VALIDATION_ERROR_BILLINGINFO_DOCUMENT_IS_NULL = "Billing info - Document cannot be null.";
+    public static final String VALIDATION_ERROR_BILLINGINFO_PHONE_IS_NULL = "Billing info - Phone cannot be null.";
+    public static final String VALIDATION_ERROR_BILLINGINFO_ADDRESS_IS_NULL = "Billing info - Address cannot be null.";
+
+    public static final String VALIDATION_ERROR_SHIPPINGINFO_FULLNAME_IS_NULL = "Shipping info - Full name cannot be null.";
+    public static final String VALIDATION_ERROR_SHIPPINGINFO_DOCUMENT_IS_NULL = "Shipping info - Document cannot be null.";
+    public static final String VALIDATION_ERROR_SHIPPINGINFO_PHONE_IS_NULL = "Shipping info - Phone cannot be null.";
+    public static final String VALIDATION_ERROR_SHIPPINGINFO_ADDRESS_IS_NULL = "Shipping info - Address cannot be null.";
 }
