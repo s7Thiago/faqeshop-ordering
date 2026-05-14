@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 
 import com.faqe.faqeshop.ordering.domain.valueObject.Address;
 import com.faqe.faqeshop.ordering.domain.valueObject.BirthDate;
-import com.faqe.faqeshop.ordering.domain.valueObject.CustomerId;
+import com.faqe.faqeshop.ordering.domain.valueObject.id.CustomerId;
 import com.faqe.faqeshop.ordering.domain.valueObject.Document;
 import com.faqe.faqeshop.ordering.domain.valueObject.Email;
 import com.faqe.faqeshop.ordering.domain.valueObject.FullName;
