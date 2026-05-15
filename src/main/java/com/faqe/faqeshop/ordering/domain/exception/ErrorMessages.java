@@ -61,4 +61,14 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_SHIPPINGINFO_DOCUMENT_IS_NULL = "Shipping info - Document cannot be null.";
     public static final String VALIDATION_ERROR_SHIPPINGINFO_PHONE_IS_NULL = "Shipping info - Phone cannot be null.";
     public static final String VALIDATION_ERROR_SHIPPINGINFO_ADDRESS_IS_NULL = "Shipping info - Address cannot be null.";
+    
+    // Additional validation messages used by Order and OrderItem
+    public static final String VALIDATION_ERROR_CUSTOMERID_IS_NULL = "Customer ID cannot be null.";
+    public static final String VALIDATION_ERROR_BILLINGINFO_IS_NULL = "Billing info cannot be null.";
+    public static final String VALIDATION_ERROR_SHIPPINGINFO_IS_NULL = "Shipping info cannot be null.";
+    public static final String VALIDATION_ERROR_ORDERSTATUS_IS_NULL = "Order status cannot be null.";
+    public static final String VALIDATION_ERROR_PAYMENTMETHOD_IS_NULL = "Payment method cannot be null.";
+    public static final String VALIDATION_ERROR_ITEMS_IS_NULL = "Order items cannot be null.";
+
+    public static final String VALIDATION_ERROR_PRODUCTID_IS_NULL = "Product ID cannot be null.";
 }

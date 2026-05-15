@@ -107,11 +107,15 @@ public class Customer {
         this.setFullName(new FullName("Anonymous", "Customer"));
         this.setPhone(new Phone("000-000-0000"));
 
-        Address.AddressBuilder addressBuilder = this.address().toBuilder();
-        this.setAddress(addressBuilder.number("Unknown")
-                .complement(null)
-                .number("Unknown")
-                .build());
+        this.setAddress(Address.builder()
+            .street(this.address().street())
+            .number("Unknown")
+            .complement(null)
+            .neighborhood(this.address().neighborhood())
+            .city(this.address().city())
+            .state(this.address().state())
+            .zipCode(this.address().zipCode())
+            .build());
         this.setDocument(new Document("000-00-000"));
         this.setEmail(new Email(UUID.randomUUID() + "@anonymous.com"));
         this.setBirthDate(null);

@@ -62,11 +62,3 @@ public record Money(BigDecimal value) implements Comparable<Money> {
         return value.toPlainString();
     }
 }
-
-record Quantity(int value) {
-    public Quantity {
-        if (value < 0) {
-            throw new IllegalArgumentException(VALIDATION_ERROR_MONEY_QUANTITY_CANNOT_BE_NEGATIVE);
-        }
-    }
-}
