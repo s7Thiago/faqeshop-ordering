@@ -12,7 +12,7 @@ public class OrderItemTest {
 
     @Test
     public void shouldGenerate() {
-        OrderItem.brandNew()
+        OrderItem orderItem = OrderItem.brandNew()
                 .orderId(new OrderId())
                 .productId(new ProductId())
                 .productName(new ProductName("Mouse pad"))

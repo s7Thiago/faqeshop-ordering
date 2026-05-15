@@ -5,15 +5,18 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import com.faqe.faqeshop.ordering.domain.valueObject.BillingInfo;
 import com.faqe.faqeshop.ordering.domain.valueObject.Money;
+import com.faqe.faqeshop.ordering.domain.valueObject.ProductName;
 import com.faqe.faqeshop.ordering.domain.valueObject.Quantity;
 import com.faqe.faqeshop.ordering.domain.valueObject.ShippingInfo;
 import com.faqe.faqeshop.ordering.domain.valueObject.id.CustomerId;
 import com.faqe.faqeshop.ordering.domain.exception.ErrorMessages;
 import com.faqe.faqeshop.ordering.domain.valueObject.id.OrderId;
+import com.faqe.faqeshop.ordering.domain.valueObject.id.ProductId;
 
 import lombok.Builder;
 
@@ -91,6 +94,27 @@ public class Order {
                 null,
                 null,
                 new HashSet<>());
+    }
+
+    public void addItem(
+            ProductId productId,
+            ProductName productName,
+            Money price,
+            Quantity quantity) {
+
+        OrderItem orderItem = OrderItem.brandNew()
+                .orderId(this.id)
+                .productId(productId)
+                .productName(productName)
+                .price(price)
+                .quantity(quantity)
+                .build();
+
+        if (Objects.isNull(this.items)) {
+            this.items = new HashSet<>();
+        }
+
+        this.items.add(orderItem);
     }
 
     public OrderId id() {
