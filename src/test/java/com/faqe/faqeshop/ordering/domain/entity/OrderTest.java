@@ -1,5 +1,9 @@
 package com.faqe.faqeshop.ordering.domain.entity;
 
+import static org.mockito.Mockito.inOrder;
+
+import java.util.Set;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +51,32 @@ public class OrderTest {
                 (i) -> Assertions.assertThat(i.quantity()).isEqualTo(new Quantity(2))
 
         );
+    }
 
+    @Test
+    public void shouldGenerateExceptionWhenTryToChangeItemSet() {
+        Order order = Order.draft(new CustomerId());
+
+        OrderItem orderItem = OrderItem.brandNew()
+                .orderId(new OrderId())
+                .productId(new ProductId())
+                .productName(new ProductName("Mouse pad"))
+                .price(new Money("100"))
+                .quantity(new Quantity(2))
+                .build();
+
+        Assertions.assertThat(order.items()).isEmpty();
+
+        order.addItem(
+                orderItem.productId(),
+                orderItem.productName(),
+                orderItem.price(),
+                orderItem.quantity());
+
+        Set<OrderItem> items = order.items();
+
+        Assertions.assertThatExceptionOfType(UnsupportedOperationException.class)
+                .isThrownBy(items::clear);
     }
 
 }
