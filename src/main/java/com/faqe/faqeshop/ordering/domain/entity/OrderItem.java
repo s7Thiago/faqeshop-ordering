@@ -6,6 +6,9 @@ import com.faqe.faqeshop.ordering.domain.valueObject.Quantity;
 import com.faqe.faqeshop.ordering.domain.valueObject.id.OrderId;
 import com.faqe.faqeshop.ordering.domain.valueObject.id.OrderItemId;
 import com.faqe.faqeshop.ordering.domain.valueObject.id.ProductId;
+
+import lombok.Builder;
+
 import java.util.Objects;
 import com.faqe.faqeshop.ordering.domain.exception.ErrorMessages;
 
@@ -22,20 +25,38 @@ public class OrderItem {
 
     private Money totalAmount;
 
+    @Builder(builderClassName = "ExistingOrderItemBuilder", builderMethodName = "existing")
     public OrderItem(OrderItemId id,
-            OrderId orderId,
+        OrderId orderId,
             ProductId productId,
             ProductName productName,
             Money price,
             Quantity quantity,
             Money totalAmount) {
-        this.setId(id);
+                this.setId(id);
         this.setOrderId(orderId);
         this.setProductId(productId);
         this.setProductName(productName);
         this.setPrice(price);
         this.setQuantity(quantity);
         this.setTotalAmount(totalAmount);
+    }
+    
+    @Builder(builderClassName = "BrandNewOrderItemBuilder", builderMethodName = "brandNew")
+    public static OrderItem createBrandNew(
+            OrderId orderId,
+            ProductId productId,
+            ProductName productName,
+            Money price,
+            Quantity quantity) {
+        return new OrderItem(
+                new OrderItemId(),
+                orderId,
+                productId,
+                productName,
+                price,
+                quantity,
+                Money.ZERO);
     }
 
     public OrderItemId id() {

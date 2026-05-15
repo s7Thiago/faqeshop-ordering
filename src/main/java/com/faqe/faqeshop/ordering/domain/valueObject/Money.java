@@ -5,7 +5,6 @@ import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATI
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_MONEY_DIVISOR_IS_NULL;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_MONEY_IS_NEGATIVE;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_MONEY_IS_NULL;
-import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_MONEY_QUANTITY_CANNOT_BE_NEGATIVE;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_MONEY_QUANTITY_IS_NULL;
 import static com.faqe.faqeshop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_MONEY_QUANTITY_MUST_BE_POSITIVE;
 

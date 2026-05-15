@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.faqe.faqeshop.ordering.domain.valueObject.BillingInfo;
@@ -13,6 +14,8 @@ import com.faqe.faqeshop.ordering.domain.valueObject.ShippingInfo;
 import com.faqe.faqeshop.ordering.domain.valueObject.id.CustomerId;
 import com.faqe.faqeshop.ordering.domain.exception.ErrorMessages;
 import com.faqe.faqeshop.ordering.domain.valueObject.id.OrderId;
+
+import lombok.Builder;
 
 public class Order {
 
@@ -38,6 +41,7 @@ public class Order {
 
     private Set<OrderItem> items;
 
+    @Builder(builderClassName = "ExistingOrderBuilder", builderMethodName = "existing")
     public Order(OrderId id,
             CustomerId customerId,
             Money totalAmount,
@@ -68,6 +72,25 @@ public class Order {
         this.setShippingCost(shippingCost);
         this.setExpectedDeliveryDate(expectedDeliveryDate);
         this.setItems(items);
+    }
+
+    public static Order draft(CustomerId customerId) {
+        return new Order(
+                new OrderId(),
+                customerId,
+                Money.ZERO,
+                Quantity.ZERO,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                OrderStatus.DRAFT,
+                null,
+                null,
+                null,
+                new HashSet<>());
     }
 
     public OrderId id() {
@@ -167,12 +190,10 @@ public class Order {
     }
 
     private void setBilling(BillingInfo billing) {
-        requireNonNull(billing, ErrorMessages.VALIDATION_ERROR_BILLINGINFO_IS_NULL);
         this.billing = billing;
     }
 
     private void setShipping(ShippingInfo shipping) {
-        requireNonNull(shipping, ErrorMessages.VALIDATION_ERROR_SHIPPINGINFO_IS_NULL);
         this.shipping = shipping;
     }
 
@@ -182,7 +203,6 @@ public class Order {
     }
 
     private void setPaymentMethod(PaymentMethod paymentMethod) {
-        requireNonNull(paymentMethod, ErrorMessages.VALIDATION_ERROR_PAYMENTMETHOD_IS_NULL);
         this.paymentMethod = paymentMethod;
     }
 
